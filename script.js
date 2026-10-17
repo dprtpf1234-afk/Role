@@ -1,7 +1,7 @@
 /**
  * ==========================================================================
- * 우리 반 1인 1역할 배정 시스템 - script.js
- * 기능: 무작위 매칭, A4 인쇄, 로컬스토리지 보관, 구글 스프레드시트 연동 준비
+ * 우리 반 1인 1역할 배정 시스템 - script.js (지브리 감성 에디션)
+ * 기능: 무작위 매칭, 오르골 음악 효과음, A4 인쇄, 로컬스토리지 보관, 구글 스프레드시트 연동 준비
  * ==========================================================================
  */
 
@@ -13,14 +13,14 @@ const DEFAULT_STUDENTS = [
 ];
 
 const DEFAULT_ROLES = [
-  { id: 1, name: "칠판 도우미", icon: "🧼", desc: "쉬는 시간마다 칠판을 깨끗하게 지우고 분필 가루를 털어요." },
+  { id: 1, name: "칠판 도우미", icon: "🧼", desc: "쉬는 시간마다 칠판을 깨끗하게 닦고 분필 가루를 털어요." },
   { id: 2, name: "우유 도우미", icon: "🥛", desc: "아침 우유 수량을 확인하고 친구들에게 안전하게 배부해요." },
   { id: 3, name: "급식 도우미", icon: "🍱", desc: "식사 전 손 씻기와 급식 줄서기, 식판 정리를 안내해요." },
-  { id: 4, name: "환기·창문 도우미", icon: "🪟", desc: "중간 놀이와 점심시간에 창문을 열어 맑은 공기를 채워요." },
-  { id: 5, name: "소등·에너지 도우미", icon: "💡", desc: "체육 시간이나 이동 수업 시 전등과 전자칠판을 꺼요." },
+  { id: 4, name: "환기·창문 도우미", icon: "🪟", desc: "중간 놀이와 점심시간에 창문을 활짝 열어 숲속 맑은 공기를 채워요." },
+  { id: 5, name: "소등·에너지 도우미", icon: "💡", desc: "체육 시간이나 이동 수업 시 전등과 전자칠판을 아껴 꺼요." },
   { id: 6, name: "도서 도우미", icon: "📚", desc: "학급 문고의 책을 번호대로 가지런히 정리정돈해요." },
   { id: 7, name: "분리수거 도우미", icon: "♻️", desc: "종이와 플라스틱 등 재활용품이 바르게 버려졌는지 살펴봐요." },
-  { id: 8, name: "식물·화분 도우미", icon: "🪴", desc: "교실 화분의 흙을 만져보고 주기적으로 물을 주며 돌봐요." },
+  { id: 8, name: "식물·화분 도우미", icon: "🪴", desc: "교실 화분의 흙을 만져보고 주기적으로 물을 주며 초록 잎을 돌봐요." },
   { id: 9, name: "위생·청결 도우미", icon: "🧴", desc: "손 소독제 잔량을 확인하고 교실 비품을 청결하게 관리해요." },
   { id: 10, name: "체육·교구 도우미", icon: "⚽", desc: "체육 시간 운동기구와 수업 준비물을 챙기고 반납해요." },
   { id: 11, name: "학습지·유인물 도우미", icon: "📑", desc: "안내장과 학습지를 분단별로 친구들에게 골고루 나눠줘요." },
@@ -37,7 +37,7 @@ const state = {
   gasUrl: ""
 };
 
-// 3. 효과음 재생 함수 (Web Audio API - 경쾌한 아르페지오 사운드)
+// 3. 지브리 스타일 맑은 오르골/실로폰 효과음 (Web Audio API)
 function playCuteSound(type = 'shuffle') {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -45,33 +45,37 @@ function playCuteSound(type = 'shuffle') {
     const ctx = new AudioContext();
 
     if (type === 'shuffle') {
-      const notes = [261.63, 329.63, 392.00, 523.25, 659.25]; // C, E, G, C, E
-      notes.forEach((freq, idx) => {
+      // 히사이시 조 음악 감성의 펜타토닉 오르골 아르페지오 (도-미-솔-라-도-레-미)
+      const frequencies = [523.25, 659.25, 783.99, 880.00, 1046.50, 1174.66, 1318.51];
+      frequencies.forEach((freq, idx) => {
+        const startTime = ctx.currentTime + idx * 0.07;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.06);
 
-        gain.gain.setValueAtTime(0.12, ctx.currentTime + idx * 0.06);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.06 + 0.15);
+        // 맑고 영롱한 실로폰/오르골 배음
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0.14, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.35);
 
         osc.connect(gain);
         gain.connect(ctx.destination);
 
-        osc.start(ctx.currentTime + idx * 0.06);
-        osc.stop(ctx.currentTime + idx * 0.06 + 0.16);
+        osc.start(startTime);
+        osc.stop(startTime + 0.38);
       });
     } else if (type === 'click') {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(440, ctx.currentTime);
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();
-      osc.stop(ctx.currentTime + 0.09);
+      osc.stop(ctx.currentTime + 0.13);
     }
   } catch (e) {
     console.debug('Audio autoplay prevented or unsupported', e);
@@ -88,12 +92,12 @@ function saveToStorage() {
     assignments: state.assignments,
     gasUrl: state.gasUrl
   };
-  localStorage.setItem('class_role_system_data', JSON.stringify(dataToSave));
+  localStorage.setItem('class_role_system_ghibli_data', JSON.stringify(dataToSave));
 }
 
 function loadFromStorage() {
   try {
-    const raw = localStorage.getItem('class_role_system_data');
+    const raw = localStorage.getItem('class_role_system_ghibli_data') || localStorage.getItem('class_role_system_data');
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed.className) state.className = parsed.className;
@@ -117,7 +121,7 @@ function showToast(message) {
   clearTimeout(window._toastTimeout);
   window._toastTimeout = setTimeout(() => {
     toast.classList.remove('show');
-  }, 2500);
+  }, 2600);
 }
 
 // 6. 무작위 셔플 (Fisher-Yates 알고리즘)
@@ -144,7 +148,6 @@ function assignRoles() {
   const newAssignments = [];
 
   state.students.forEach((student, index) => {
-    // 만약 학생 수가 역할 수보다 많을 경우 순환 배정
     const role = shuffledRoles[index % shuffledRoles.length];
     newAssignments.push({
       number: index + 1,
@@ -157,7 +160,7 @@ function assignRoles() {
   saveToStorage();
   renderCards();
   updateStats();
-  showToast('🎉 우리 반 1인 1역할이 성공적으로 배정되었습니다!');
+  showToast('🌿 바람을 타고 우리 반 1인 1역할이 배정되었습니다!');
 }
 
 // 8. 카드 렌더링 함수
@@ -170,7 +173,7 @@ function renderCards() {
   if (state.assignments.length === 0) {
     // 초기 상태: 배정 전 기본 학생-역할 가이드 카드 렌더링
     state.students.forEach((student, index) => {
-      const defaultRole = state.roles[index % state.roles.length] || { name: '역할 미정', icon: '✨', desc: '역할 배정하기 버튼을 눌러주세요.' };
+      const defaultRole = state.roles[index % state.roles.length] || { name: '역할 준비 중', icon: '🌱', desc: '역할 배정하기 버튼을 눌러주세요.' };
       const card = createCardElement({
         number: index + 1,
         studentName: student,
@@ -195,12 +198,12 @@ function createCardElement(item, index, isAssigned) {
   const card = document.createElement('div');
   const themeIndex = index % 6;
   card.className = `role-card color-theme-${themeIndex}`;
-  card.style.animationDelay = `${index * 0.03}s`;
+  card.style.animationDelay = `${index * 0.035}s`;
 
   card.innerHTML = `
     <div class="card-header-bar">
       <span class="card-student-number">${item.number}번</span>
-      <span class="card-role-icon" title="${item.role.name}">${item.role.icon || '⭐'}</span>
+      <span class="card-role-icon" title="${item.role.name}">${item.role.icon || '🌱'}</span>
     </div>
     <div class="card-body">
       <div class="student-name-row">
@@ -244,7 +247,7 @@ function openRoleChangeModal(studentIndex) {
   const selectEl = document.getElementById('roleChangeSelect');
 
   if (titleEl) {
-    titleEl.textContent = `${student.studentName} 학생 (${student.number}번) 역할 변경`;
+    titleEl.textContent = `🌿 ${student.studentName} 학생 (${student.number}번) 역할 변경`;
   }
 
   if (selectEl) {
@@ -287,7 +290,7 @@ function syncPrintHeader() {
   const printClass = document.getElementById('printClass');
   const printDate = document.getElementById('printDate');
 
-  if (printTitle) printTitle.textContent = `🏫 우리 반 1인 1역할 배정 안내판`;
+  if (printTitle) printTitle.textContent = `🌿 우리 반 1인 1역할 배정 안내판`;
   if (printClass) printClass.textContent = `학급: ${state.className}`;
   if (printDate) printDate.textContent = `배정 일자: ${state.termName}`;
 }
@@ -308,11 +311,11 @@ function copyResultText() {
     return;
   }
 
-  let text = `[🏫 ${state.className} 1인 1역할 배정표 (${state.termName})]\n\n`;
+  let text = `[🌿 ${state.className} 1인 1역할 배정표 (${state.termName})]\n\n`;
   state.assignments.forEach((item) => {
     text += `${item.number}번 ${item.studentName}: ${item.role.icon} ${item.role.name} (${item.role.desc})\n`;
   });
-  text += `\n"맡은 역할을 성실히 수행하여 행복하고 깨끗한 교실을 만들어요!"`;
+  text += `\n"작은 도토리가 모여 깊은 숲을 이루듯, 모두 함께 즐거운 우리 반을 만들어요!"`;
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
@@ -364,11 +367,10 @@ async function fetchFromSheet() {
   const statusEl = document.getElementById('sheetSyncStatus');
   if (statusEl) {
     statusEl.textContent = '🔄 시트에서 최신 데이터를 가져오는 중...';
-    statusEl.style.color = '#2563EB';
+    statusEl.style.color = '#265B88';
   }
 
   try {
-    // Apps Script doGet 호출
     const response = await fetch(`${url}?action=getData`, {
       method: 'GET',
       mode: 'cors'
@@ -391,7 +393,7 @@ async function fetchFromSheet() {
 
       if (statusEl) {
         statusEl.textContent = `✅ 성공: 학생 ${data.students.length}명, 역할 ${data.roles ? data.roles.length : 0}개를 시트에서 가져왔습니다!`;
-        statusEl.style.color = '#059669';
+        statusEl.style.color = '#245233';
       }
       showToast('🔄 시트 데이터를 성공적으로 불러왔습니다!');
     } else {
@@ -400,10 +402,10 @@ async function fetchFromSheet() {
   } catch (err) {
     console.warn('Apps Script fetch failed:', err);
     if (statusEl) {
-      statusEl.textContent = `ℹ️ 시트 접속 실패 (${err.message}). 안내 탭의 Apps Script 코드가 배포되었는지 확인해 주세요.`;
-      statusEl.style.color = '#DC2626';
+      statusEl.textContent = `ℹ️ 시트 접속 실패 (${err.message}). 안내 탭의 Apps Script 코드가 웹 앱으로 배포되었는지 확인해 주세요.`;
+      statusEl.style.color = '#A8382A';
     }
-    showToast('⚠️ 시트 통신 오류: 배포 URL 및 CORS 권한을 확인해 주세요.');
+    showToast('⚠️ 시트 통신 오류: 배포 URL 및 권한 설정을 확인해 주세요.');
   }
 }
 
@@ -426,7 +428,7 @@ async function saveToSheet() {
   const statusEl = document.getElementById('sheetSyncStatus');
   if (statusEl) {
     statusEl.textContent = '💾 시트에 배정 결과를 저장하는 중...';
-    statusEl.style.color = '#2563EB';
+    statusEl.style.color = '#265B88';
   }
 
   const payload = {
@@ -437,9 +439,9 @@ async function saveToSheet() {
   };
 
   try {
-    const response = await fetch(url, {
+    await fetch(url, {
       method: 'POST',
-      mode: 'no-cors', // Apps Script 리다이렉트 대응용 no-cors
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -448,14 +450,14 @@ async function saveToSheet() {
 
     if (statusEl) {
       statusEl.textContent = '✅ 구글 시트로 배정 결과가 성공적으로 전송되었습니다!';
-      statusEl.style.color = '#059669';
+      statusEl.style.color = '#245233';
     }
     showToast('💾 시트에 결과 저장을 완료했습니다!');
   } catch (err) {
     console.warn('Apps Script post failed:', err);
     if (statusEl) {
       statusEl.textContent = `❌ 시트 저장 실패: ${err.message}`;
-      statusEl.style.color = '#DC2626';
+      statusEl.style.color = '#A8382A';
     }
     showToast('⚠️ 시트 저장 중 문제가 발생했습니다.');
   }
@@ -501,14 +503,12 @@ function saveManagementChanges() {
 
     const parsedRoles = [];
     lines.forEach((line, i) => {
-      // 형식: "🧼 칠판 도우미 | 칠판 깨끗이 닦기" 또는 "칠판 도우미 | 설명"
       const parts = line.split('|');
       const titlePart = (parts[0] || '').trim();
       const descPart = (parts[1] || '성실하게 책임을 다해요.').trim();
 
-      // 첫 글자 이모지 추출
       const emojiMatch = titlePart.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|\p{Emoji_Presentation})/u);
-      let icon = '⭐';
+      let icon = '🌱';
       let name = titlePart;
       if (emojiMatch) {
         icon = emojiMatch[0];
@@ -532,7 +532,7 @@ function saveManagementChanges() {
   renderCards();
   updateStats();
   document.getElementById('manageModal').classList.remove('active');
-  showToast('💾 학생 명단과 역할 목록이 성공적으로 저장되었습니다!');
+  showToast('💾 학생 명단과 역할 목록이 저장되었습니다!');
 }
 
 function resetToDefaultData() {
@@ -625,7 +625,7 @@ function initEventListeners() {
         }
         saveToStorage();
         renderCards();
-        showToast(`✅ ${state.assignments[index].studentName} 학생의 역할이 변경되었습니다.`);
+        showToast(`🌿 ${state.assignments[index].studentName} 학생의 역할이 변경되었습니다.`);
       }
     }
     modal.classList.remove('active');
@@ -646,7 +646,7 @@ function initEventListeners() {
     const code = document.getElementById('gasCodeSnippet').textContent;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(code).then(() => {
-        showToast('📋 Apps Script 코드가 복사되었습니다! Apps Script 편집기에 붙여넣으세요.');
+        showToast('📋 Apps Script 코드가 복사되었습니다!');
       });
     }
   });
@@ -657,7 +657,7 @@ function initEventListeners() {
 
   // 모달 내부 탭 전환
   document.querySelectorAll('.tab-btn').forEach(tab => {
-    tab.addEventListener('click', (e) => {
+    tab.addEventListener('click', () => {
       const parent = tab.closest('.modal-content');
       parent.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
       parent.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
@@ -679,7 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEventListeners();
 });
 
-// 전역 window 바인딩 (인라인 호출이나 외부 환경 대비)
+// 전역 window 바인딩
 window.classRoleSystem = {
   assignRoles,
   printA4Sheet,
