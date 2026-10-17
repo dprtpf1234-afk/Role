@@ -147,13 +147,13 @@
       </div>
       <div class="bento-feature-card">
         <div class="feature-icon">☁️</div>
-        <h3 class="feature-title">Google Apps Script 클라우드 동기화</h3>
-        <p class="feature-desc">구글 스프레드시트 웹 앱 URL을 연결하여 실시간 명단 불러오기와 배정 결과 백업이 가능합니다.</p>
+        <h3 class="feature-title">Google 스프레드시트 실시간 연동</h3>
+        <p class="feature-desc">구글 시트 URL 또는 Apps Script 웹 앱을 연결하여 간편하게 명단을 동기화하고 배정 결과를 저장할 수 있습니다.</p>
       </div>
     </section>
   </div>
 
-  <!-- ================= 모달 1: 구글 스프레드시트 연동 모달 ================= -->
+  <!-- ================= 모달 1: 구글 스프레드시트 연동 모달 (강화된 3-way 연동) ================= -->
   <div id="sheetModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sheetModalTitle">
     <div class="modal-content apple-sheet-modal">
       <div class="modal-header">
@@ -165,35 +165,101 @@
       </div>
 
       <div class="modal-body">
+        <!-- 3개 탭: URL 연동 / 시트 셀 직접 붙여넣기 / Apps Script 배포 안내 -->
         <div class="apple-segmented-tabs">
-          <button class="tab-btn active" type="button" data-tab="tabSheetConnect">웹 앱 URL 연결</button>
-          <button class="tab-btn" type="button" data-tab="tabSheetGuide">Apps Script 템플릿 코드</button>
+          <button class="tab-btn active" type="button" data-tab="tabSheetConnect">🌐 시트/웹앱 URL 연동</button>
+          <button class="tab-btn" type="button" data-tab="tabSheetPaste">📋 시트 셀 직접 붙여넣기</button>
+          <button class="tab-btn" type="button" data-tab="tabSheetGuide">📜 Apps Script 가이드</button>
         </div>
 
-        <!-- 탭 1: URL 연결 -->
+        <!-- 탭 1: URL 연결 (구글 시트 주소 또는 Apps Script 웹 앱 주소 모두 지원) -->
         <div id="tabSheetConnect" class="tab-pane">
           <div class="form-group">
-            <label class="form-label" for="gasUrlInput">Google Apps Script Web App URL</label>
-            <input type="url" id="gasUrlInput" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
-            <span class="form-help">스프레드시트 &gt; 확장 프로그램 &gt; Apps Script 웹 앱 배포 URL을 입력하세요.</span>
+            <label class="form-label" for="gasUrlInput">구글 시트 URL 또는 Apps Script 웹 앱 URL</label>
+            <input type="url" id="gasUrlInput" class="form-input" placeholder="https://docs.google.com/spreadsheets/d/... 또는 https://script.google.com/macros/s/.../exec">
+            <span class="form-help">
+              💡 <strong>구글 시트 URL</strong>(<code>docs.google.com/...</code>)을 그대로 입력하거나, <strong>Apps Script 웹 앱 URL</strong>(<code>/exec</code>)을 입력하세요.
+            </span>
           </div>
 
           <div class="modal-actions-row">
-            <button id="btnSaveGasUrl" class="apple-btn-pill apple-btn-secondary" type="button">URL 저장</button>
-            <button id="btnDoFetchSheet" class="apple-btn-pill apple-btn-outline" type="button">🔄 시트에서 불러오기</button>
-            <button id="btnDoSaveSheet" class="apple-btn-pill apple-btn-primary" type="button">💾 시트로 결과 저장</button>
+            <button id="btnDoFetchSheet" class="apple-btn-pill apple-btn-primary" type="button">
+              <span>🔄</span> 시트에서 불러오기
+            </button>
+            <button id="btnDoSaveSheet" class="apple-btn-pill apple-btn-secondary" type="button">
+              <span>💾</span> 시트에 결과 저장
+            </button>
+            <button id="btnSaveGasUrl" class="apple-btn-pill apple-btn-outline" type="button">
+              URL 저장
+            </button>
           </div>
 
+          <!-- 실시간 상태 및 진단 박스 -->
           <div id="sheetSyncStatus" class="apple-callout-box">
-            구글 시트 URL을 등록하면 학생 명단과 역할을 실시간으로 가져오고 배정 결과를 시트에 보관할 수 있습니다.
+            구글 스프레드시트 주소를 입력하고 [시트에서 불러오기]를 누르세요.
+          </div>
+
+          <!-- Failed to fetch 해결 안내 카드 (필요시 노출) -->
+          <div id="sheetTroubleshootBox" class="apple-troubleshoot-box" style="display: none;">
+            <div class="troubleshoot-title">⚠️ 시트 연결 실패(Failed to fetch) 해결 방법:</div>
+            <ol class="troubleshoot-list">
+              <li>
+                <strong>구글 스프레드시트 링크를 직접 입력한 경우:</strong><br>
+                해당 구글 시트 우측 상단 <strong>[공유]</strong> &gt; 일반 액세스를 <strong>'링크가 있는 모든 사용자(뷰어)'</strong>로 설정해야 브라우저에서 데이터를 읽어올 수 있습니다.
+              </li>
+              <li>
+                <strong>Apps Script 웹 앱 URL을 입력한 경우:</strong><br>
+                Apps Script 배포 시 <strong>'액세스 권한'</strong>이 반드시 <strong>'모든 사용자(Anyone)'</strong>로 설정되어 있어야 합니다. ('나만'으로 되어 있으면 Google 로그인 보안 차단으로 인해 Failed to fetch가 발생합니다.)
+              </li>
+              <li>
+                <strong>URL 끝이 <code>/dev</code>로 되어 있는 경우:</strong><br>
+                <code>/dev</code>는 테스트 주소이므로 권한 오류가 발생합니다. [배포] &gt; [배포 관리]에서 <strong><code>/exec</code></strong>로 끝나는 웹 앱 URL을 복사하세요.
+              </li>
+              <li>
+                <strong>가장 빠른 해결책:</strong> 상단 <strong>[📋 시트 셀 직접 붙여넣기]</strong> 탭을 누른 후 구글 시트 셀을 복사(Ctrl+C)하여 붙여넣으면 즉시 100% 정상 적용됩니다.
+              </li>
+            </ol>
           </div>
         </div>
 
-        <!-- 탭 2: Apps Script 코드 안내 -->
-        <div id="tabSheetGuide" class="tab-pane" style="display: none;">
+        <!-- 탭 2: 시트 셀 직접 붙여넣기 (실패 확률 0% 원클릭 파싱) -->
+        <div id="tabSheetPaste" class="tab-pane" style="display: none;">
           <p class="guide-lead-text">
-            구글 스프레드시트의 <strong>확장 프로그램 &gt; Apps Script</strong>에 아래 코드를 붙여넣고 <strong>[웹 앱으로 배포]</strong> (액세스: 모든 사용자) 하세요.
+            구글 시트에서 <strong>학생 이름</strong>과 <strong>역할</strong>이 적힌 셀 영역을 드래그하여 복사(Ctrl+C)한 후, 아래 입력창에 붙여넣기(Ctrl+V)하세요.
           </p>
+          <div class="form-group" style="margin-top: 10px;">
+            <label class="form-label" for="sheetPasteArea">시트에서 복사한 내용 (탭/쉼표로 구분)</label>
+            <textarea id="sheetPasteArea" class="form-textarea" placeholder="김민준	칠판 도우미&#10;이서아	우유 도우미&#10;박도윤	급식 도우미..." rows="6"></textarea>
+            <span class="form-help">※ A열: 학생 이름, B열: 역할 이름 (열 헤더가 있어도 자동으로 감지합니다)</span>
+          </div>
+
+          <div class="modal-actions-row" style="margin-top: 12px;">
+            <button id="btnApplyPasteData" class="apple-btn-pill apple-btn-primary" type="button">
+              <span>✅</span> 붙여넣은 명단으로 즉시 적용
+            </button>
+            <button id="btnCopyForSheet" class="apple-btn-pill apple-btn-secondary" type="button" title="현재 배정 결과를 시트에 붙여넣을 수 있도록 복사">
+              <span>📋</span> 현재 배정결과 시트용 복사
+            </button>
+          </div>
+
+          <div id="pasteStatusMsg" class="apple-callout-box" style="margin-top: 10px; display: none;"></div>
+        </div>
+
+        <!-- 탭 3: Apps Script 가이드 & 템플릿 코드 -->
+        <div id="tabSheetGuide" class="tab-pane" style="display: none;">
+          <div class="apple-deploy-checklist">
+            <div class="checklist-title">💡 Apps Script 배포 필수 체크리스트 (Failed to fetch 방지)</div>
+            <ul class="checklist-items">
+              <li>1. 스프레드시트 <strong>확장 프로그램 &gt; Apps Script</strong> 클릭</li>
+              <li>2. 아래 템플릿 코드를 붙여넣고 저장(Ctrl+S)</li>
+              <li>3. 우측 상단 <strong>[배포] &gt; [새 배포]</strong> 선택</li>
+              <li>4. 유형: <strong>웹 앱</strong> 선택</li>
+              <li>5. 다음 사용자 권한으로 실행: <strong>나(me)</strong></li>
+              <li>6. <span class="highlight-red">★액세스 권한: <strong>모든 사용자(Anyone)</strong></span> (※'나만'으로 두면 Failed to fetch 발생!)</li>
+              <li>7. 배포 후 발급되는 <strong>/exec</strong> URL을 복사하여 연동 탭에 입력</li>
+            </ul>
+          </div>
+
           <pre id="gasCodeSnippet" class="code-snippet-box">function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var data = sheet.getDataRange().getValues();
@@ -201,20 +267,32 @@
   var students = [];
   var roles = [];
   for (var i = 1; i &lt; data.length; i++) {
-    if (data[i][0]) students.push(data[i][0]);
-    if (data[i][1]) {
+    var studentName = data[i][0] ? String(data[i][0]).trim() : '';
+    var roleName = data[i][1] ? String(data[i][1]).trim() : '';
+    if (studentName) students.push(studentName);
+    if (roleName) {
       roles.push({
         id: i,
-        name: data[i][1],
-        icon: data[i][2] || '⭐',
-        desc: data[i][3] || ''
+        name: roleName,
+        icon: data[i][2] ? String(data[i][2]).trim() : '✨',
+        desc: data[i][3] ? String(data[i][3]).trim() : '우리 반을 위해 책임을 다합니다.'
       });
     }
   }
-  return ContentService.createTextOutput(JSON.stringify({
+  
+  var payload = JSON.stringify({
     students: students,
     roles: roles
-  })).setMimeType(ContentService.MimeType.JSON);
+  });
+
+  // JSONP 지원 (callback 파라미터가 있을 경우 CORS 문제 원천 방지)
+  if (e && e.parameter && e.parameter.callback) {
+    return ContentService.createTextOutput(e.parameter.callback + '(' + payload + ')')
+           .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
+  return ContentService.createTextOutput(payload)
+         .setMimeType(ContentService.MimeType.JSON);
 }
 
 function doPost(e) {
@@ -230,7 +308,7 @@ function doPost(e) {
          .setMimeType(ContentService.MimeType.JSON);
 }</pre>
           <button id="btnCopyGasCode" class="apple-btn-pill apple-btn-secondary" type="button" style="margin-top: 12px;">
-            📋 코드 복사하기
+            📋 Apps Script 코드 복사하기
           </button>
         </div>
       </div>
