@@ -3,211 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>우리 반 1인 1역할 도우미 - 지브리 감성 교실</title>
-  <meta name="description" content="스튜디오 지브리 감성의 따뜻한 수채화풍 초등학교 1인 1역할 배정 및 A4 게시판 인쇄 웹 애플리케이션">
-  <meta property="og:title" content="우리 반 1인 1역할 도우미 - 지브리 감성 교실">
-  <meta property="og:description" content="초등학교 교실을 위한 지브리 스타일 1인 1역할 랜덤 배정 및 A4 인쇄 시스템">
+  <title>우리 반 1인 1역할 - Apple 스타일 학급 배정 시스템</title>
+  <meta name="description" content="애플의 정제된 미니멀리즘 디자인을 담은 초등학교 1인 1역할 무작위 배정 및 A4 인쇄 시스템">
+  <meta property="og:title" content="우리 반 1인 1역할 - Apple 스타일 학급 배정 시스템">
+  <meta property="og:description" content="애플 스타일의 세련된 디자인과 부드러운 인터랙션을 제공하는 학급 역할 배정 웹 애플리케이션">
   <meta property="og:type" content="website">
 
-  <!-- 웹 폰트: 지브리 동화책 감성의 Gowun Dodum & Gaegu & Pretendard -->
+  <!-- Apple San Francisco 느낌의 초정밀 폰트 Pretendard & Inter -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&family=Gowun+Dodum&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- 지브리 테마 스타일시트 -->
+  <!-- 애플 테마 스타일시트 -->
   <link rel="stylesheet" href="./style.css">
 </head>
-<body class="ghibli-theme">
-  <!-- 지브리 숲과 구름 배경 레이어 -->
-  <div class="ghibli-bg-sky" aria-hidden="true"></div>
-  <div class="ghibli-floating-particles" aria-hidden="true">
-    <span class="particle leaf-1">🍃</span>
-    <span class="particle acorn-1">🌰</span>
-    <span class="particle leaf-2">🌿</span>
-    <span class="particle clover-1">🍀</span>
-    <span class="particle dust-1">🐾</span>
-  </div>
+<body class="apple-theme">
+  <!-- 상단 애플 글로벌 네비게이션 바 (Frosted Glass) -->
+  <header class="apple-nav-wrapper">
+    <div class="apple-nav-container">
+      <div class="apple-nav-brand">
+        <span class="apple-logo" aria-hidden="true"></span>
+        <span class="brand-title">Class Roles</span>
+        <span class="brand-badge">Pro</span>
+      </div>
+
+      <nav class="apple-nav-actions" aria-label="메인 메뉴">
+        <button id="btnSheetLoad" class="apple-nav-link" type="button" title="구글 스프레드시트에서 명단/역할 가져오기">
+          <span class="nav-icon">🔄</span> 시트 불러오기
+        </button>
+        <button id="btnSheetSave" class="apple-nav-link" type="button" title="구글 스프레드시트에 배정 결과 전송">
+          <span class="nav-icon">💾</span> 시트에 결과 저장
+        </button>
+        <button id="btnManage" class="apple-nav-link" type="button" title="학생 명단 및 역할 목록 편집">
+          <span class="nav-icon">⚙️</span> 명단 및 역할 관리
+        </button>
+        <button id="btnPrint" class="apple-btn-pill apple-btn-outline" type="button" title="게시판 부착용 A4 인쇄">
+          <span class="nav-icon">🖨️</span> A4 인쇄
+        </button>
+      </nav>
+    </div>
+  </header>
 
   <div class="app-container">
-    <!-- 1. 지브리 오두막 상단 바 -->
-    <header class="header-section">
-      <div class="header-top-bar">
-        <div class="ghibli-brand">
-          <span class="brand-sprite-icon" title="마쿠로쿠로스케 먼지 요정">🐾</span>
-          <span class="brand-text">초록 숲 우리 반 1인 1역할</span>
-          <span class="brand-leaf-accent">🍃</span>
-        </div>
+    <!-- 1. 애플 키노트 스타일 히어로 섹션 -->
+    <section class="apple-hero-section">
+      <div class="apple-kicker">
+        <span class="kicker-glow">✨</span>
+        <span class="kicker-text">2026 Classroom Intelligence</span>
+      </div>
+      <h1 class="apple-hero-headline">
+        우리 반 1인 1역할.
+      </h1>
+      <p class="apple-hero-subhead">
+        한 사람 한 사람의 소중한 책임이 만드는 완성도 높은 교실.<br>
+        놀랍도록 공정하고, 직관적으로.
+      </p>
 
-        <div class="header-utility-buttons">
-          <button id="btnSheetLoad" class="btn btn-ghibli-mint" type="button" title="구글 스프레드시트에서 명단/역할 가져오기">
-            <span class="btn-icon">🔄</span> 시트 불러오기
-          </button>
-          <button id="btnSheetSave" class="btn btn-ghibli-sky" type="button" title="구글 스프레드시트에 배정 결과 전송">
-            <span class="btn-icon">💾</span> 시트에 결과 저장
-          </button>
-          <button id="btnManage" class="btn btn-ghibli-wood" type="button" title="학생 명단 및 역할 목록 편집">
-            <span class="btn-icon">📜</span> 명단 및 역할 관리
-          </button>
-          <button id="btnPrint" class="btn btn-ghibli-sun" type="button" title="게시판 부착용 A4 인쇄">
-            <span class="btn-icon">🖨️</span> A4 인쇄하기
-          </button>
+      <!-- 애플 스타일 세그먼트 인라인 설정 바 -->
+      <div class="apple-inline-bar">
+        <div class="bar-segment">
+          <span class="segment-label">학급</span>
+          <input type="text" id="classInput" class="apple-input-inline" value="3학년 2반" placeholder="3학년 2반" title="학급명을 입력하세요">
+        </div>
+        <div class="segment-divider" aria-hidden="true"></div>
+        <div class="bar-segment">
+          <span class="segment-label">기간</span>
+          <input type="text" id="termInput" class="apple-input-inline" value="2026학년도 1학기" placeholder="1학기" title="학기 또는 기간을 입력하세요">
         </div>
       </div>
+    </section>
 
-      <!-- 2. 지브리 수채화 감성 창문 히어로 배너 -->
-      <div class="header-hero ghibli-hero-card">
-        <!-- 배경 수채화 일러스트 배너 -->
-        <div class="hero-watercolor-backdrop" aria-hidden="true"></div>
-
-        <div class="hero-content-wrapper">
-          <div class="hero-badge-tag">
-            <span>🌿 풀잎 바람 부는 우리 교실</span>
-          </div>
-          <h1 class="hero-main-title">
-            <span class="title-decor-left">🌱</span>
-            <span>우리 반 1인 1역할 도우미</span>
-            <span class="title-decor-right">🕊️</span>
-          </h1>
-          <p class="hero-subtitle">
-            작은 도토리와 푸른 새싹이 모여 깊은 숲을 이루듯, 서로의 책임을 정답게 나눠요
-          </p>
-
-          <!-- 나뭇결 명판 스타일 학급 정보 인라인 편집 바 -->
-          <div class="class-info-bar ghibli-wooden-plaque">
-            <div class="class-info-item">
-              <span class="info-icon">🏫</span>
-              <span class="info-title">우리 반:</span>
-              <input type="text" id="classInput" class="class-input-inline" value="3학년 2반" placeholder="예: 3학년 2반" title="학급명을 입력하세요">
-            </div>
-            <span class="info-separator" aria-hidden="true">·</span>
-            <div class="class-info-item">
-              <span class="info-icon">📅</span>
-              <span class="info-title">배정 기간:</span>
-              <input type="text" id="termInput" class="class-input-inline" value="2026학년도 1학기" placeholder="예: 1학기" title="학기 또는 기간을 입력하세요">
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- 3. 메인 배정 액션 컨트롤 & 숲속 통계 바 -->
-    <section class="action-toolbar-section">
-      <div class="main-controls-card ghibli-parchment-card">
-        <div class="button-group-primary">
-          <button id="btnAssignMain" class="btn btn-assign-ghibli" type="button">
-            <span class="btn-icon-bounce">🎲</span>
+    <!-- 2. 애플 메인 액션 컨트롤 & 스펙 통계 바 -->
+    <section class="apple-action-deck">
+      <div class="apple-deck-card">
+        <div class="action-buttons-group">
+          <button id="btnAssignMain" class="apple-btn-pill apple-btn-primary" type="button">
+            <span class="btn-symbol">🎲</span>
             <span>역할 배정하기</span>
-            <span class="sparkle-spark">✨</span>
           </button>
-          <button id="btnReshuffle" class="btn btn-ghibli-acorn" type="button">
+          <button id="btnReshuffle" class="apple-btn-pill apple-btn-secondary" type="button">
             <span>🔀</span> 다시 섞기
           </button>
-          <button id="btnCopyResult" class="btn btn-ghibli-paper" type="button" title="알림장이나 학급 메신저에 붙여넣기할 수 있는 텍스트 복사">
+          <button id="btnCopyResult" class="apple-btn-pill apple-btn-ghost" type="button" title="알림장이나 학급 메신저에 붙여넣기할 수 있는 텍스트 복사">
             <span>📋</span> 결과 텍스트 복사
           </button>
         </div>
 
-        <!-- 따뜻한 통계 배지 -->
-        <div class="stats-badges-cluster">
-          <div class="stat-item">
-            <span class="stat-icon">🎒</span>
-            <span class="stat-label">학생 수:</span>
-            <span id="statTotalStudents" class="stat-val">12명</span>
+        <!-- 애플 스타일 깔끔한 3단 메트릭스 -->
+        <div class="apple-specs-row">
+          <div class="spec-unit">
+            <span class="spec-value" id="statTotalStudents">12</span>
+            <span class="spec-caption">학생 수</span>
           </div>
-          <span class="info-separator" aria-hidden="true">·</span>
-          <div class="stat-item">
-            <span class="stat-icon">🌻</span>
-            <span class="stat-label">준비된 역할:</span>
-            <span id="statTotalRoles" class="stat-val">12개</span>
+          <div class="spec-separator" aria-hidden="true"></div>
+          <div class="spec-unit">
+            <span class="spec-value" id="statTotalRoles">12</span>
+            <span class="spec-caption">학급 역할</span>
           </div>
-          <span class="info-separator" aria-hidden="true">·</span>
-          <div class="stat-item">
-            <span class="stat-icon">🍀</span>
-            <span class="stat-label">배정 완료:</span>
-            <span id="statAssignedCount" class="stat-val highlight">12 / 12명</span>
+          <div class="spec-separator" aria-hidden="true"></div>
+          <div class="spec-unit">
+            <span class="spec-value highlight" id="statAssignedCount">12 / 12</span>
+            <span class="spec-caption">배정 현황</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4. 인쇄 시에만 나타나는 전용 게시판 헤더 -->
+    <!-- 3. 인쇄 시에만 나타나는 전용 A4 헤더 -->
     <div class="print-only-header">
-      <div class="print-border-decor"></div>
-      <h2 id="printTitle" class="print-header-title">🌿 우리 반 1인 1역할 배정 안내판</h2>
+      <div class="print-top-line"></div>
+      <h2 id="printTitle" class="print-header-title">우리 반 1인 1역할 배정표</h2>
       <div class="print-header-meta">
         <span id="printClass">학급: 3학년 2반</span>
-        <span class="print-motto">"오늘도 즐겁고 힘차게, 내 역할을 다하는 우리 교실!"</span>
+        <span class="print-motto">"책임과 배려로 함께 만들어가는 행복한 우리 교실"</span>
         <span id="printDate">배정 일자: 2026학년도 1학기</span>
       </div>
     </div>
 
-    <!-- 5. 1인 1역할 카드 그리드 영역 -->
+    <!-- 4. 애플 벤토(Bento) 카드 그리드 -->
     <main class="grid-container-wrapper">
-      <div id="assignmentGrid" class="assignment-grid">
-        <!-- script.js에 의해 지브리 감성 카드가 동적으로 생성됩니다 -->
+      <div id="assignmentGrid" class="apple-bento-grid">
+        <!-- script.js에 의해 애플 스타일 카드가 동적으로 렌더링됩니다 -->
       </div>
     </main>
 
-    <!-- 인쇄 시에만 나타나는 하단 표어 -->
+    <!-- 인쇄 시에만 나타나는 하단 서명란 -->
     <div class="print-only-footer">
-      🌱 맑은 하늘과 푸른 언덕처럼 언제나 환하게 웃는 우리 교실 · 담임 교사 확인 ________________ (인)
+      우리 반 모두가 주인이 되어 맡은 역할을 성실하게 실천합니다. · 담임 교사 확인: ________________ (인)
     </div>
 
-    <!-- 6. 지브리 오두막 안내서: 교실 운영 꿀팁 -->
-    <section class="tips-container ghibli-cottage-note">
-      <h3 class="tips-title">
-        <span class="tips-icon">🏡</span>
-        <span>지브리 숲속 교실 1인 1역할 이야기</span>
-      </h3>
-      <ul class="tips-list">
-        <li><strong>공정한 바람의 배정:</strong> [🎲 역할 배정하기]를 누르면 청아한 실로폰/오르골 멜로디와 함께 12명의 친구와 12개의 역할이 1:1로 고르게 연결됩니다.</li>
-        <li><strong>선생님의 따뜻한 손길:</strong> 카드 오른쪽 아래 [🔄 역할 변경]을 눌러 친구들의 특별한 소질이나 일정에 맞춰 편하게 조율할 수 있습니다.</li>
-        <li><strong>교실 게시판 A4 인쇄:</strong> [🖨️ A4 인쇄하기] 버튼을 누르면 인쇄 시 화면 버튼은 모두 정돈되고, A4 한 장에 쏙 들어오는 정갈한 3열 표로 깔끔하게 출력됩니다.</li>
-        <li><strong>스프레드시트 원격 연동:</strong> 상단 [🔄 시트 불러오기]를 통해 Google Apps Script와 연결하여 언제든 최신 명단과 결과를 기록할 수 있습니다.</li>
-      </ul>
+    <!-- 5. 애플 프로덕트 하이라이트 (선생님 가이드 벤토 섹션) -->
+    <section class="apple-bento-features">
+      <div class="bento-feature-card">
+        <div class="feature-icon">✨</div>
+        <h3 class="feature-title">Fisher-Yates 무작위 알고리즘</h3>
+        <p class="feature-desc">모든 학생에게 공정하고 편향 없는 1:1 무작위 배정을 제공하며, Web Audio 촉각 사운드가 경험을 완성합니다.</p>
+      </div>
+      <div class="bento-feature-card">
+        <div class="feature-icon">🖨️</div>
+        <h3 class="feature-title">게시판 전용 A4 레이아웃</h3>
+        <p class="feature-desc">인쇄 명령 시 불필요한 UI는 즉시 숨겨지고, A4 1장에 딱 맞는 3열 고해상도 타이포그래피 표로 변환됩니다.</p>
+      </div>
+      <div class="bento-feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3 class="feature-title">Google Apps Script 클라우드 동기화</h3>
+        <p class="feature-desc">구글 스프레드시트 웹 앱 URL을 연결하여 실시간 명단 불러오기와 배정 결과 백업이 가능합니다.</p>
+      </div>
     </section>
   </div>
 
-  <!-- ================= 모달 1: 구글 스프레드시트(Apps Script) 연동 모달 ================= -->
+  <!-- ================= 모달 1: 구글 스프레드시트 연동 모달 ================= -->
   <div id="sheetModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sheetModalTitle">
-    <div class="modal-content ghibli-modal">
+    <div class="modal-content apple-sheet-modal">
       <div class="modal-header">
-        <h2 id="sheetModalTitle" class="modal-title">
-          <span>📮</span> 구글 스프레드시트 (Apps Script) 연동
-        </h2>
+        <div class="modal-title-wrap">
+          <span class="modal-symbol">📊</span>
+          <h2 id="sheetModalTitle" class="modal-title">구글 스프레드시트 연동</h2>
+        </div>
         <button class="btn-modal-close" type="button" aria-label="닫기">&times;</button>
       </div>
 
       <div class="modal-body">
-        <div class="modal-tabs">
-          <button class="tab-btn active" type="button" data-tab="tabSheetConnect">🔗 웹 앱 URL 연결</button>
-          <button class="tab-btn" type="button" data-tab="tabSheetGuide">📜 Apps Script 템플릿 코드</button>
+        <div class="apple-segmented-tabs">
+          <button class="tab-btn active" type="button" data-tab="tabSheetConnect">웹 앱 URL 연결</button>
+          <button class="tab-btn" type="button" data-tab="tabSheetGuide">Apps Script 템플릿 코드</button>
         </div>
 
         <!-- 탭 1: URL 연결 -->
         <div id="tabSheetConnect" class="tab-pane">
-          <div class="form-group" style="margin-bottom: 16px;">
-            <label class="form-label" for="gasUrlInput">구글 Apps Script 웹 앱 배포 URL</label>
+          <div class="form-group">
+            <label class="form-label" for="gasUrlInput">Google Apps Script Web App URL</label>
             <input type="url" id="gasUrlInput" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
-            <span class="form-help">※ 구글 스프레드시트 &gt; 확장 프로그램 &gt; Apps Script 웹 앱 배포 URL을 입력하세요.</span>
+            <span class="form-help">스프레드시트 &gt; 확장 프로그램 &gt; Apps Script 웹 앱 배포 URL을 입력하세요.</span>
           </div>
 
-          <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
-            <button id="btnSaveGasUrl" class="btn btn-ghibli-wood" type="button">URL 저장</button>
-            <button id="btnDoFetchSheet" class="btn btn-ghibli-mint" type="button">🔄 시트에서 불러오기</button>
-            <button id="btnDoSaveSheet" class="btn btn-ghibli-sky" type="button">💾 시트로 결과 저장</button>
+          <div class="modal-actions-row">
+            <button id="btnSaveGasUrl" class="apple-btn-pill apple-btn-secondary" type="button">URL 저장</button>
+            <button id="btnDoFetchSheet" class="apple-btn-pill apple-btn-outline" type="button">🔄 시트에서 불러오기</button>
+            <button id="btnDoSaveSheet" class="apple-btn-pill apple-btn-primary" type="button">💾 시트로 결과 저장</button>
           </div>
 
-          <div id="sheetSyncStatus" class="sheet-status-box">
-            🍃 구글 시트 URL을 등록하면 시트의 학생 명단 및 역할을 즉시 가져오고 배정 결과를 시트에 기록할 수 있습니다.
+          <div id="sheetSyncStatus" class="apple-callout-box">
+            구글 시트 URL을 등록하면 학생 명단과 역할을 실시간으로 가져오고 배정 결과를 시트에 보관할 수 있습니다.
           </div>
         </div>
 
         <!-- 탭 2: Apps Script 코드 안내 -->
         <div id="tabSheetGuide" class="tab-pane" style="display: none;">
-          <p style="font-size: 0.85rem; color: #4A4036; margin-bottom: 8px;">
-            스프레드시트 <strong>확장 프로그램 &gt; Apps Script</strong>에 아래 코드를 붙여넣고 [웹 앱으로 배포] (액세스 권한: 모든 사용자) 하시면 바로 연동됩니다.
+          <p class="guide-lead-text">
+            구글 스프레드시트의 <strong>확장 프로그램 &gt; Apps Script</strong>에 아래 코드를 붙여넣고 <strong>[웹 앱으로 배포]</strong> (액세스: 모든 사용자) 하세요.
           </p>
           <pre id="gasCodeSnippet" class="code-snippet-box">function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -244,32 +229,33 @@ function doPost(e) {
   return ContentService.createTextOutput(JSON.stringify({ status: 'success' }))
          .setMimeType(ContentService.MimeType.JSON);
 }</pre>
-          <button id="btnCopyGasCode" class="btn btn-ghibli-paper" type="button" style="margin-top: 10px;">
-            📋 Apps Script 코드 복사하기
+          <button id="btnCopyGasCode" class="apple-btn-pill apple-btn-secondary" type="button" style="margin-top: 12px;">
+            📋 코드 복사하기
           </button>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-ghibli-wood btn-cancel" type="button">닫기</button>
+        <button class="apple-btn-pill apple-btn-ghost btn-cancel" type="button">닫기</button>
       </div>
     </div>
   </div>
 
   <!-- ================= 모달 2: 학생 명단 및 역할 목록 편집 모달 ================= -->
   <div id="manageModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="manageModalTitle">
-    <div class="modal-content ghibli-modal">
+    <div class="modal-content apple-sheet-modal">
       <div class="modal-header">
-        <h2 id="manageModalTitle" class="modal-title">
-          <span>📜</span> 학생 명단 및 역할 목록 관리
-        </h2>
+        <div class="modal-title-wrap">
+          <span class="modal-symbol">👥</span>
+          <h2 id="manageModalTitle" class="modal-title">명단 및 역할 관리</h2>
+        </div>
         <button class="btn-modal-close" type="button" aria-label="닫기">&times;</button>
       </div>
 
       <div class="modal-body">
-        <div class="modal-tabs">
-          <button class="tab-btn active" type="button" data-tab="tabManageStudents">학생 명단 편집</button>
-          <button class="tab-btn" type="button" data-tab="tabManageRoles">역할 목록 편집</button>
+        <div class="apple-segmented-tabs">
+          <button class="tab-btn active" type="button" data-tab="tabManageStudents">학생 명단</button>
+          <button class="tab-btn" type="button" data-tab="tabManageRoles">역할 목록</button>
         </div>
 
         <!-- 탭 1: 학생 명단 -->
@@ -277,7 +263,7 @@ function doPost(e) {
           <div class="form-group">
             <label class="form-label" for="manageStudentsText">학생 명단 (1줄에 1명씩 입력)</label>
             <textarea id="manageStudentsText" class="form-textarea" placeholder="김민준&#10;이서아&#10;박도윤..."></textarea>
-            <span class="form-help">줄바꿈으로 구분됩니다. 총 12명 기본 세팅 완료</span>
+            <span class="form-help">줄바꿈으로 자동 구분됩니다. (현재 12명 기본 세팅)</span>
           </div>
         </div>
 
@@ -286,47 +272,49 @@ function doPost(e) {
           <div class="form-group">
             <label class="form-label" for="manageRolesText">역할 목록 (형식: [이모지] 역할명 | 설명)</label>
             <textarea id="manageRolesText" class="form-textarea" placeholder="🧼 칠판 도우미 | 쉬는 시간마다 칠판 닦기&#10;🥛 우유 도우미 | 우유 배부하기..."></textarea>
-            <span class="form-help">형식 예시: 🧼 칠판 도우미 | 칠판을 깨끗이 닦아요</span>
+            <span class="form-help">형식: [이모지] 역할명 | 역할 설명</span>
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button id="btnResetManage" class="btn btn-ghibli-wood" type="button" style="margin-right: auto; color: #A8382A;">
-          🔄 기본 12명 복원
+        <button id="btnResetManage" class="apple-btn-pill apple-btn-danger" type="button" style="margin-right: auto;">
+          기본값 복원
         </button>
-        <button class="btn btn-ghibli-wood btn-cancel" type="button">취소</button>
-        <button id="btnSaveManage" class="btn btn-assign-ghibli" type="button">저장 및 적용</button>
+        <button class="apple-btn-pill apple-btn-ghost btn-cancel" type="button">취소</button>
+        <button id="btnSaveManage" class="apple-btn-pill apple-btn-primary" type="button">저장 및 적용</button>
       </div>
     </div>
   </div>
 
   <!-- ================= 모달 3: 단일 카드 역할 수동 변경 모달 ================= -->
   <div id="roleChangeModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="roleChangeStudentTitle">
-    <div class="modal-content ghibli-modal" style="max-width: 440px;">
+    <div class="modal-content apple-sheet-modal" style="max-width: 440px;">
       <div class="modal-header">
-        <h2 id="roleChangeStudentTitle" class="modal-title">🌿 역할 변경</h2>
+        <div class="modal-title-wrap">
+          <h2 id="roleChangeStudentTitle" class="modal-title">역할 변경</h2>
+        </div>
         <button class="btn-modal-close" type="button" aria-label="닫기">&times;</button>
       </div>
 
       <div class="modal-body">
         <div class="form-group">
-          <label class="form-label" for="roleChangeSelect">새로 배정할 역할 선택</label>
-          <select id="roleChangeSelect" class="swap-select">
+          <label class="form-label" for="roleChangeSelect">새로운 역할 선택</label>
+          <select id="roleChangeSelect" class="apple-select">
             <!-- 자바스크립트로 역할 목록 옵션 생성 -->
           </select>
-          <span class="form-help">선생님이 학생의 사정에 맞춰 수동으로 역할을 조정할 수 있습니다.</span>
+          <span class="form-help">해당 학생에게 부여할 최적의 역할을 선택하세요.</span>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-ghibli-wood btn-cancel" type="button">취소</button>
-        <button id="btnConfirmRoleChange" class="btn btn-assign-ghibli" type="button">변경 완료</button>
+        <button class="apple-btn-pill apple-btn-ghost btn-cancel" type="button">취소</button>
+        <button id="btnConfirmRoleChange" class="apple-btn-pill apple-btn-primary" type="button">적용</button>
       </div>
     </div>
   </div>
 
-  <!-- 플로팅 토스트 알림 -->
+  <!-- 애플 스타일 플로팅 햅틱 토스트 알림 -->
   <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
 
   <!-- 스크립트 연결 -->
