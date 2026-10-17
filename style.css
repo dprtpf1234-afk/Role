@@ -1,0 +1,970 @@
+/* ==========================================================================
+   우리 반 1인 1역할 배정 시스템 - style.css
+   초등학생 눈높이에 맞춘 따뜻하고 귀여운 파스텔톤 디자인 & A4 인쇄 스타일
+   ========================================================================== */
+
+/* 1. 디자인 토큰 및 기본 변수 설정 */
+:root {
+  --font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Noto Sans KR', sans-serif;
+  --font-cute: 'Gaegu', 'Dongle', cursive, sans-serif;
+
+  /* 파스텔 컬러 팔레트 */
+  --bg-canvas: #FAF8F5;
+  --bg-card: #FFFFFF;
+  --text-main: #2D3748;
+  --text-muted: #718096;
+  --border-soft: #E2E8F0;
+
+  /* 파스텔 테마 색상 */
+  --pastel-blue: #E8F2FF;
+  --pastel-blue-dark: #3B82F6;
+  --pastel-mint: #E6F7F0;
+  --pastel-mint-dark: #10B981;
+  --pastel-yellow: #FFF9E6;
+  --pastel-yellow-dark: #F59E0B;
+  --pastel-peach: #FFF0EB;
+  --pastel-peach-dark: #F97316;
+  --pastel-purple: #F3EAFD;
+  --pastel-purple-dark: #8B5CF6;
+  --pastel-pink: #FFEBF2;
+  --pastel-pink-dark: #EC4899;
+
+  /* UI 그림자 */
+  --shadow-sm: 0 2px 8px rgba(100, 116, 139, 0.08);
+  --shadow-md: 0 8px 20px rgba(100, 116, 139, 0.1);
+  --shadow-lg: 0 14px 30px rgba(100, 116, 139, 0.12);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+}
+
+/* 2. 리셋 및 기본 베이스 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-canvas);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 상단 배경 장식 패턴 (부드러운 구름/원 모양) */
+.page-bg-decor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(180deg, #F0F7FF 0%, rgba(250, 248, 245, 0) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 3. 전체 레이아웃 컨테이너 */
+.app-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  width: 100%;
+}
+
+/* 4. 상단 헤더 영역 */
+.header-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.header-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-soft);
+}
+
+.school-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #3B82F6;
+  font-size: 0.95rem;
+}
+
+.badge-icon {
+  font-size: 1.25rem;
+}
+
+.header-utility-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 공통 버튼 스타일 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-main);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  user-select: none;
+  min-height: 40px;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--pastel-blue-dark);
+  outline-offset: 2px;
+}
+
+/* 보조 유틸리티 버튼 */
+.btn-sheet-load {
+  background-color: var(--pastel-mint);
+  color: #065F46;
+  border-color: #A7F3D0;
+}
+.btn-sheet-load:hover {
+  background-color: #D1FAE5;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
+}
+
+.btn-sheet-save {
+  background-color: var(--pastel-blue);
+  color: #1E40AF;
+  border-color: #BFDBFE;
+}
+.btn-sheet-save:hover {
+  background-color: #DBEAFE;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.15);
+}
+
+.btn-manage {
+  background-color: #F8FAFC;
+  color: #475569;
+  border-color: #CBD5E1;
+}
+.btn-manage:hover {
+  background-color: #F1F5F9;
+}
+
+.btn-print {
+  background-color: var(--pastel-yellow);
+  color: #92400E;
+  border-color: #FDE68A;
+}
+.btn-print:hover {
+  background-color: #FEF3C7;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.15);
+}
+
+/* 5. 타이틀 및 학급 설정 배너 */
+.header-hero {
+  text-align: center;
+  padding: 24px 16px 20px;
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #EEF2F6;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #F472B6, #60A5FA, #34D399, #FBBF24);
+}
+
+.hero-main-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.hero-title-icon {
+  font-size: 2.2rem;
+  animation: bounceSlow 3s infinite ease-in-out;
+}
+
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: #64748B;
+  margin-bottom: 20px;
+}
+
+/* 학급 정보 인라인 편집 칩 */
+.class-info-bar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: #F8FAFC;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: 1px solid #E2E8F0;
+  flex-wrap: wrap;
+}
+
+.class-info-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.class-input-inline {
+  border: 1px dashed #CBD5E1;
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0F172A;
+  outline: none;
+  width: 110px;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.class-input-inline:focus {
+  border-color: #3B82F6;
+  background-color: #EFF6FF;
+}
+
+.info-separator {
+  color: #CBD5E1;
+}
+
+/* 6. 액션 툴바 (주요 배정 버튼 및 통계) */
+.action-toolbar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.main-controls-card {
+  background: #FFFFFF;
+  padding: 18px 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.button-group-primary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 거대 메인 배정하기 버튼 */
+.btn-assign-main {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  color: #FFFFFF;
+  font-size: 1.05rem;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+  font-weight: 700;
+}
+
+.btn-assign-main:hover {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-reshuffle {
+  background-color: var(--pastel-peach);
+  color: #C2410C;
+  border-color: #FFD2C2;
+}
+.btn-reshuffle:hover {
+  background-color: #FFE4DC;
+}
+
+.btn-copy {
+  background-color: #F1F5F9;
+  color: #334155;
+  border-color: #E2E8F0;
+}
+.btn-copy:hover {
+  background-color: #E2E8F0;
+}
+
+/* 통계 지표 바 */
+.stats-badges-cluster {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748B;
+}
+
+.stat-label {
+  font-weight: 500;
+}
+
+.stat-val {
+  font-weight: 700;
+  color: #1E293B;
+  font-variant-numeric: tabular-nums;
+  background: #F1F5F9;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.stat-val.highlight {
+  color: #059669;
+  background-color: #D1FAE5;
+}
+
+/* 7. 인쇄용 전용 배너 (화면에서는 숨김 처리하거나 정갈하게 표시) */
+.print-only-header {
+  display: none;
+}
+
+/* 8. 역할 배정 결과 카드 그리드 */
+.grid-container-wrapper {
+  margin-bottom: 32px;
+}
+
+.assignment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* 개별 역할 카드 */
+.role-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid #E2E8F0;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+  position: relative;
+  animation: cardFadeIn 0.35s ease-out forwards;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.role-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* 테마별 카드 헤더 색상 */
+.role-card.color-theme-0 .card-header-bar { background-color: var(--pastel-blue); border-bottom-color: #DBEAFE; }
+.role-card.color-theme-1 .card-header-bar { background-color: var(--pastel-mint); border-bottom-color: #D1FAE5; }
+.role-card.color-theme-2 .card-header-bar { background-color: var(--pastel-yellow); border-bottom-color: #FEF3C7; }
+.role-card.color-theme-3 .card-header-bar { background-color: var(--pastel-peach); border-bottom-color: #FFEDD5; }
+.role-card.color-theme-4 .card-header-bar { background-color: var(--pastel-purple); border-bottom-color: #EDE9FE; }
+.role-card.color-theme-5 .card-header-bar { background-color: var(--pastel-pink); border-bottom-color: #FCE7F3; }
+
+.card-header-bar {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.card-student-number {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748B;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.card-role-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+/* 카드 본문 */
+.card-body {
+  padding: 18px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.student-name-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.student-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.01em;
+}
+
+.student-tag {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.role-title-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.role-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.role-description {
+  font-size: 0.875rem;
+  color: #64748B;
+  line-height: 1.5;
+  background-color: #F8FAFC;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #F1F5F9;
+  min-height: 52px;
+}
+
+/* 카드 하단 수동 교체 툴바 (인쇄 시 자동 숨김) */
+.card-footer-actions {
+  padding: 8px 16px 12px;
+  border-top: 1px dashed #F1F5F9;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-card-swap {
+  background: transparent;
+  border: none;
+  font-size: 0.75rem;
+  color: #64748B;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-card-swap:hover {
+  background-color: #F1F5F9;
+  color: #2563EB;
+}
+
+/* 9. 안내 배너 / 선생님 꿀팁 */
+.tips-container {
+  background: #FFFFFF;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin-top: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.tips-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tips-list {
+  padding-left: 20px;
+  color: #64748B;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* 10. 모달 공통 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.btn-modal-close:hover {
+  background-color: #F1F5F9;
+  color: #1E293B;
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-soft);
+  background: #F8FAFC;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* 모달 내부 탭 */
+.modal-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 12px;
+}
+
+.tab-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748B;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #EFF6FF;
+  color: #2563EB;
+  border-color: #BFDBFE;
+}
+
+/* 폼 요소 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-help {
+  font-size: 0.8rem;
+  color: #64748B;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  color: #1E293B;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.form-input:focus, .form-textarea:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* 코드 박스 (Apps Script 안내용) */
+.code-snippet-box {
+  background: #1E293B;
+  color: #E2E8F0;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  overflow-x: auto;
+  max-height: 180px;
+  line-height: 1.5;
+}
+
+/* 수동 교환 팝업용 셀렉트 */
+.swap-select {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #CBD5E1;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+/* 토스트 알림 메시지 */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: #1E293B;
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2000;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+
+.toast-notice.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   11. 교실 게시판 부착용 A4 인쇄 스타일 (@media print)
+   - 불필요한 컨트롤(버튼, 모달, 팁 등) 완전 숨김
+   - A4 한 장에 쏙 들어오도록 정갈한 3~4열 그리드 레이아웃
+   - 흑백/컬러 프린터 모두에서 번짐 없이 깔끔한 테두리와 폰트
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 10mm;
+  }
+
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 10pt;
+    padding: 0 !important;
+  }
+
+  .page-bg-decor,
+  .header-top-bar,
+  .action-toolbar-section,
+  .card-footer-actions,
+  .tips-container,
+  .modal-overlay,
+  .toast-notice {
+    display: none !important;
+  }
+
+  .app-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .header-hero {
+    display: none !important;
+  }
+
+  /* 인쇄 전용 헤더 */
+  .print-only-header {
+    display: block !important;
+    text-align: center;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .print-header-title {
+    font-size: 22pt;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .print-header-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11pt;
+    font-weight: 600;
+    color: #333333;
+    padding: 0 8px;
+  }
+
+  /* 인쇄용 카드 그리드: 3열 균등 배치 */
+  .assignment-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .role-card {
+    border: 1.5px solid #333333 !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    transform: none !important;
+    animation: none !important;
+    background-color: #FFFFFF !important;
+  }
+
+  .card-header-bar {
+    padding: 8px 12px !important;
+    background-color: #F3F4F6 !important;
+    border-bottom: 1.5px solid #333333 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .card-student-number {
+    font-size: 9pt !important;
+    border: 1px solid #666666 !important;
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .card-role-icon {
+    font-size: 14pt !important;
+  }
+
+  .card-body {
+    padding: 10px 12px !important;
+    gap: 6px !important;
+  }
+
+  .student-name {
+    font-size: 14pt !important;
+    color: #000000 !important;
+  }
+
+  .student-tag {
+    display: none !important;
+  }
+
+  .role-name {
+    font-size: 11pt !important;
+    font-weight: 700 !important;
+    color: #000000 !important;
+  }
+
+  .role-description {
+    font-size: 8.5pt !important;
+    line-height: 1.35 !important;
+    padding: 6px 8px !important;
+    border: 1px dashed #999999 !important;
+    background: #FAFAFA !important;
+    color: #333333 !important;
+    min-height: auto !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 인쇄용 하단 표어 */
+  .print-only-footer {
+    display: block !important;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #444444;
+    border-top: 1px dashed #666666;
+    padding-top: 8px;
+  }
+}
+
+@media screen {
+  .print-only-footer {
+    display: none;
+  }
+}
+
+/* 12. 모바일 반응형 대응 */
+@media (max-width: 640px) {
+  .app-container {
+    padding: 16px 12px 36px;
+  }
+
+  .header-top-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-utility-buttons {
+    justify-content: stretch;
+  }
+
+  .header-utility-buttons .btn {
+    flex: 1 1 45%;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .hero-main-title {
+    font-size: 1.5rem;
+  }
+
+  .main-controls-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button-group-primary {
+    flex-direction: column;
+  }
+
+  .button-group-primary .btn {
+    width: 100%;
+  }
+
+  .stats-badges-cluster {
+    justify-content: space-between;
+  }
+
+  .assignment-grid {
+    grid-template-columns: 1fr;
+  }
+}
